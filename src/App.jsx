@@ -46,6 +46,21 @@ function App() {
     await fetchNotes();
   }
 
+  async function deleteNote(id) {
+    const { error } = await supabase
+      .from("notes")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      setMessage("Error deleting note: " + error.message);
+      return;
+    }
+
+    setMessage("Note deleted!");
+    await fetchNotes();
+  }
+
   useEffect(() => {
     fetchNotes();
   }, []);
@@ -75,7 +90,12 @@ function App() {
       ) : (
         <ul>
           {notes.map((item) => (
-            <li key={item.id}>{item.content}</li>
+            <li key={item.id}>
+              {item.content}{" "}
+              <button onClick={() => deleteNote(item.id)}>
+                Delete
+              </button>
+            </li>
           ))}
         </ul>
       )}
