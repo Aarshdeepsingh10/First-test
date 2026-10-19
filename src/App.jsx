@@ -36,7 +36,8 @@ function App() {
       .insert([{ content: note.trim() }]);
 
     if (error) {
-      setMessage("Error saving note: " + error.message);
+      console.error("Delete error:", error);
+      setMessage("Error deleting note: " + error.message);
       return;
     }
 
